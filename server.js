@@ -9,6 +9,7 @@ const bodyParser = require('body-parser');
 // we import the ShoppingList model, which we'll
 // interact with in our GET endpoint
 const {ShoppingList} = require('./models');
+const {Recipes} = require('./models');
 
 const jsonParser = bodyParser.json();
 const app = express();
@@ -21,9 +22,13 @@ app.use(morgan('common'));
 // normally you wouldn't do this. Usually your
 // server will simply expose the state of the
 // underlying database.
-ShoppingList.create('beans', 2);
-ShoppingList.create('tomatoes', 3);
-ShoppingList.create('peppers', 4);
+ShoppingList.create('black beans', 2);
+ShoppingList.create('red tomatoes', 3);
+ShoppingList.create('orange peppers', 4);
+
+Recipes.create('tacos',['meat','shells','guacamole','rice','beans','olives']);
+Recipes.create('california roll',['rice','crab','avocaco','sesame seeds']);
+Recipes.create('new york crunch roll',['rice','crab','avocaco','fried onions','spicy mayo']);
 
 // when the root of this route is called with GET, return
 // all current ShoppingList items by calling `ShoppingList.get()`
@@ -31,6 +36,10 @@ app.get('/shopping-list', (req, res) => {
   res.json(ShoppingList.get());
 });
 
-app.listen(process.env.PORT || 8080, () => {
-  console.log(`Your app is listening on port ${process.env.PORT || 8080}`);
+app.get('/recipe-list', (req, res) => {
+  res.json(Recipes.get());
+});
+
+app.listen(process.env.PORT || 3000, () => {
+  console.log(`Your app is listening on port ${process.env.PORT || 3000}`);
 });
